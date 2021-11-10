@@ -148,6 +148,20 @@ int main(int argc, char* argv[]) {
   builder(&interpreter);
   TFLITE_MINIMAL_CHECK(interpreter != nullptr);
 
+  DisplayModelInfo(*interpreter_);
+  printf("=== Pre-delegate Interpreter State ===\n");
+
+    // Create the ArmNN Delegate
+  std::vector<armnn::BackendId> backends = { armnn::Compute::GpuAcc };
+    // std::string backends = "GpuAcc";
+  armnnDelegate::DelegateOptions delegateOptions(backends);
+  std::unique_ptr<TfLiteDelegate, decltype(&armnnDelegate::TfLiteArmnnDelegateDelete)>
+                        theArmnnDelegate(armnnDelegate::TfLiteArmnnDelegateCreate(delegateOptions),
+                                         armnnDelegate::TfLiteArmnnDelegateDelete);
+  // Modify armnnDelegateInterpreter to use armnnDelegate
+  interpreter->ModifyGraphWithDelegate(theArmnnDelegate.get());
+
+
   // Allocate tensor buffers.
   TFLITE_MINIMAL_CHECK(interpreter->AllocateTensors() == kTfLiteOk);
   printf("=== Pre-invoke Interpreter State ===\n");
