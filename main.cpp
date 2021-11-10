@@ -19,6 +19,8 @@ limitations under the License.
 #include "tensorflow/lite/optional_debug_tools.h"
 /* for OpenCV */
 #include <opencv2/opencv.hpp>
+// for armnn delegate
+#include <armnn_delegate.hpp>
 
 // This is an example that is minimal to read a model
 // from disk and perform inference. There is no data being loaded

@@ -28,11 +28,18 @@ set(TENSORFLOW_LIB ${CMAKE_CURRENT_LIST_DIR}/tensorflow_prebuilt/lib/${SUB_LIB_D
 # main
 target_include_directories(${ProjectName} PUBLIC
                            ${OpenCV_INCLUDE_DIRS}
-                           ${CMAKE_CURRENT_LIST_DIR}/tensorflow_prebuilt/tensorflow)
+                           ${CMAKE_CURRENT_LIST_DIR}/tensorflow_prebuilt/tensorflow
+                           ${CMAKE_CURRENT_LIST_DIR}/tensorflow_prebuilt/tensorflow/tensorflow/lite/tools/make/downloads/flatbuffers/include
+                           ${CMAKE_CURRENT_LIST_DIR}/tensorflow_prebuilt/tensorflow/tensorflow/lite/tools/make/downloads/absl
+                           ${CMAKE_CURRENT_LIST_DIR}/armnn_prebuilt/include
+                           ${CMAKE_CURRENT_LIST_DIR}/armnn_delegate_prebuilt/include
+                           )
 
 target_link_libraries(${ProjectName} 
                         ${TENSORFLOW_LIB} 
                         ${OpenCV_LIBS}
+                        ${CMAKE_CURRENT_LIST_DIR}/armnn_prebuilt/lib/${SUB_LIB_DIR}/libarmnn.so
+                        ${CMAKE_CURRENT_LIST_DIR}/armnn_delegate_prebuilt/lib/${SUB_LIB_DIR}/libarmnnDelegate.so
                         )
 
 file(COPY ${CMAKE_CURRENT_LIST_DIR}/resource DESTINATION ${CMAKE_BINARY_DIR}/)
