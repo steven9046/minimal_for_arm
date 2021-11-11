@@ -1,7 +1,9 @@
 cmake_minimum_required(VERSION 3.0)
 
-# set(CMAKE_SYSTEM_PROCESSOR "x86_64")
-set(CMAKE_SYSTEM_PROCESSOR "aarch64")
+# 选择PC上运行还是ARM上运行
+set(CMAKE_SYSTEM_PROCESSOR "x86_64")
+# set(CMAKE_SYSTEM_PROCESSOR "aarch64")
+# add_definitions(-DARMNN_DELEGATE) #ARM上运行时开启ArmNN加速
 
 if (${CMAKE_SYSTEM_PROCESSOR} STREQUAL "x86_64")
 	set (SUB_LIB_DIR "x64_linux")
@@ -31,15 +33,15 @@ target_include_directories(${ProjectName} PUBLIC
                            ${CMAKE_CURRENT_LIST_DIR}/tensorflow_prebuilt/tensorflow
                            ${CMAKE_CURRENT_LIST_DIR}/tensorflow_prebuilt/tensorflow/tensorflow/lite/tools/make/downloads/flatbuffers/include
                            ${CMAKE_CURRENT_LIST_DIR}/tensorflow_prebuilt/tensorflow/tensorflow/lite/tools/make/downloads/absl
-                           ${CMAKE_CURRENT_LIST_DIR}/armnn_prebuilt/include
-                           ${CMAKE_CURRENT_LIST_DIR}/armnn_delegate_prebuilt/include
+                        #    ${CMAKE_CURRENT_LIST_DIR}/armnn_prebuilt/include
+                        #    ${CMAKE_CURRENT_LIST_DIR}/armnn_delegate_prebuilt/include
                            )
 
 target_link_libraries(${ProjectName} 
                         ${TENSORFLOW_LIB} 
                         ${OpenCV_LIBS}
-                        ${CMAKE_CURRENT_LIST_DIR}/armnn_prebuilt/lib/${SUB_LIB_DIR}/libarmnn.so
-                        ${CMAKE_CURRENT_LIST_DIR}/armnn_delegate_prebuilt/lib/${SUB_LIB_DIR}/libarmnnDelegate.so
+                        # ${CMAKE_CURRENT_LIST_DIR}/armnn_prebuilt/lib/${SUB_LIB_DIR}/libarmnn.so
+                        # ${CMAKE_CURRENT_LIST_DIR}/armnn_delegate_prebuilt/lib/${SUB_LIB_DIR}/libarmnnDelegate.so
                         )
 
 file(COPY ${CMAKE_CURRENT_LIST_DIR}/resource DESTINATION ${CMAKE_BINARY_DIR}/)
